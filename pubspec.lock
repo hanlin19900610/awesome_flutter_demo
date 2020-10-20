@@ -155,6 +155,20 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.3.0"
+  extended_text:
+    dependency: transitive
+    description:
+      name: extended_text
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "4.0.0"
+  extended_text_library:
+    dependency: transitive
+    description:
+      name: extended_text_library
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "4.0.1"
   fake_async:
     dependency: transitive
     description:

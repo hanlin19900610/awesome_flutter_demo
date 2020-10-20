@@ -1,0 +1,37 @@
+library base_framework;
+
+export 'config/index.dart';
+export 'exception/index.dart';
+export 'extension/index.dart';
+export 'factory/index.dart';
+export 'native/index.dart';
+export 'observer/index.dart';
+export 'ui/index.dart';
+export 'utils/index.dart';
+export 'view_model/index.dart';
+export 'widget_state/index.dart';
+
+/// 第三方依赖库
+export 'package:path_provider/path_provider.dart';
+export 'package:provider/provider.dart';
+export 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+export 'package:device_info/device_info.dart';
+export 'package:package_info/package_info.dart';
+export 'package:dio/dio.dart';
+export 'package:collection/collection.dart';
+export 'package:oktoast/oktoast.dart';
+export 'package:pull_to_refresh/pull_to_refresh.dart';
+export 'package:multi_image_picker/multi_image_picker.dart';
+export 'package:image_editor/image_editor.dart';
+export 'package:shimmer/shimmer.dart';
+export 'package:url_launcher/url_launcher.dart';
+export 'package:permission_handler/permission_handler.dart';
+export 'package:flustars/flustars.dart';
+export 'package:common_utils/common_utils.dart';
+export 'package:mmkv_flutter/mmkv_flutter.dart';
+export 'package:localstorage/localstorage.dart';
+export 'package:connectivity/connectivity.dart';
+export 'package:flutter_custom_dialog/flutter_custom_dialog.dart';
+export 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+export 'package:extended_image/extended_image.dart';
+export 'package:cached_network_image_builder/cached_network_image_builder.dart';

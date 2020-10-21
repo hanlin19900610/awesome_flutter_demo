@@ -153,6 +153,7 @@ mixin WidgetGenerator on BaseState implements _RouteGenerator, _NavigateActor {
   @override
   Future push<T extends PageState>(T targetPage, {PageAnimation animation}) {
     assert(targetPage != null, 'the target page must not null !');
+    FocusScope.of(context)?.unfocus();
     return Navigator.of(context).push(buildRoute(
         targetPage.generateWidget(), targetPage.runtimeType.toString(),
         animation: animation));
@@ -162,6 +163,7 @@ mixin WidgetGenerator on BaseState implements _RouteGenerator, _NavigateActor {
   Future pushReplacement<T extends Object, TO extends PageState>(TO targetPage,
       {PageAnimation animation, T result}) {
     assert(targetPage != null, 'the target page must not null !');
+    FocusScope.of(context)?.unfocus();
     return Navigator.of(context).pushReplacement(
         buildRoute(
             targetPage.generateWidget(), targetPage.runtimeType.toString(),
@@ -173,6 +175,7 @@ mixin WidgetGenerator on BaseState implements _RouteGenerator, _NavigateActor {
   Future pushAndRemoveUntil<T extends PageState>(T targetPage,
       {PageAnimation animation, RoutePredicate predicate}) {
     assert(targetPage != null, 'the target page must not null !');
+    FocusScope.of(context)?.unfocus();
     return Navigator.of(context).pushAndRemoveUntil(
         buildRoute(
             targetPage.generateWidget(), targetPage.runtimeType.toString(),

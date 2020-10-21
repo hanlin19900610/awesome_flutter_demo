@@ -21,7 +21,9 @@ class StorageManager {
     await SpUtil.getInstance();
     temporaryDirectory = await getTemporaryDirectory();
     appDirectory = await getApplicationDocumentsDirectory();
-    externalDirectory = await getExternalStorageDirectory();
+    if (Platform.isAndroid) {
+      externalDirectory = await getExternalStorageDirectory();
+    }
 
     ///本地缓存基本都可以使用此工具
     ///后续页面可以同步使用

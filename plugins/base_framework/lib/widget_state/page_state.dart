@@ -87,18 +87,18 @@ abstract class PageState extends BaseState
             child: GestureDetector(
               onHorizontalDragStart: (dragStart) {
                 slideOutActive =
-                    dragStart.globalPosition.dx < (getScreenWidth() / 10);
+                    dragStart.globalPosition.dx < (screenWidth() / 10);
               },
               onHorizontalDragUpdate: (dragDetails) {
                 if (!slideOutActive) return;
                 marginLeft = dragDetails.globalPosition.dx;
                 dragPosition = marginLeft;
                 //if(marLeft > 250) return;
-                if (marginLeft < getWidthPx(50)) marginLeft = 0;
+                if (marginLeft < 50.w) marginLeft = 0;
                 setState(() {});
               },
               onHorizontalDragEnd: (dragEnd) {
-                if (dragPosition > getScreenWidth() / 5) {
+                if (dragPosition > screenWidth() / 5) {
                   pop();
                 } else {
                   marginLeft = 0.0;
@@ -117,77 +117,6 @@ abstract class PageState extends BaseState
             ),
           ),
         ));
-  }
-
-  /// 一般页面的通用APP BAR 具体根据项目需求调整
-  Widget commonAppBar(
-      {Widget leftWidget,
-      String title,
-      List<Widget> rightWidget,
-      Color bgColor = Colors.white,
-      @required double leftPadding,
-      @required double rightPadding}) {
-    return Container(
-      width: getWidthPx(750),
-      height: getHeightPx(115),
-      color: bgColor ?? Color.fromRGBO(241, 241, 241, 1),
-      padding: EdgeInsets.only(
-          bottom: getHeightPx(10), left: leftPadding, right: rightPadding),
-      alignment: Alignment.bottomCenter,
-      child: Stack(
-        alignment: Alignment.bottomRight,
-        children: <Widget>[
-          Positioned(
-            left: 0,
-            child: leftWidget ?? Container(),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Visibility(
-              visible: title != null,
-              child: Text(
-                "$title",
-                style: TextStyle(
-                    fontSize: getSp(36),
-                    color: Colors.black,
-                    decoration: TextDecoration.none),
-              ),
-            ),
-          ),
-          if (rightWidget != null) ...rightWidget,
-        ],
-      ),
-    );
-  }
-
-  ///通用APP bar 统一后退键
-  Widget buildAppBarLeft() {
-    return GestureDetector(
-      onTap: () {
-        if (canPop()) {
-          pop();
-        } else {
-          ///增加需要的提示信息
-        }
-      },
-      child: Container(
-        color: Colors.white,
-        width: getWidthPx(150),
-        height: getHeightPx(90),
-        alignment: Alignment.bottomLeft,
-        child: Image.asset(
-          ImageHelper.wrapAssetsIcon("icon_back_black"),
-          width: getWidthPx(17),
-          height: getHeightPx(32),
-        ),
-      ),
-    );
-  }
-
-  Widget sliverWrapper(Widget child) {
-    return SliverToBoxAdapter(
-      child: child,
-    );
   }
 
   //////////////////////////////////////////////////////

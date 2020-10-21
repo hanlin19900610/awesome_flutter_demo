@@ -1,6 +1,5 @@
 export 'image/index.dart';
 export 'skeleton/index.dart';
-export 'web/index.dart';
 export 'progress_widget.dart';
 export 'activity_indicator.dart';
 export 'bottom_nav_bar_no_ink.dart';

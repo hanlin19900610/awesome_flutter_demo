@@ -30,36 +30,36 @@ abstract class BaseState<T extends StatefulWidget> extends State<T> {
   ///在页面上方显示一个 loading widget
   ///共有两种方法，showProgressDialog是其中一种
   ///具体参见 : progress_widget.dart
-  DialogLoadingController _dialogLoadingController;
+  YYDialog _yyDialog;
 
   showProgressDialog({
     Widget progress,
     Color bgColor,
   }) {
-    if (_dialogLoadingController == null) {
-      _dialogLoadingController = DialogLoadingController();
-      Navigator.of(context).push(PageRouteBuilder(
-          opaque: false,
-          pageBuilder: (ctx, animation, secondAnimation) {
-            return LoadingProgressState(
-              controller: _dialogLoadingController,
-              progress: progress,
-              bgColor: bgColor,
-            ).generateWidget();
-          }));
+    if (_yyDialog == null) {
+      _yyDialog = YYDialog();
+      _yyDialog.build()
+        ..width = 150.h
+        ..height = 150.h
+        ..borderRadius = 5.0
+        ..barrierDismissible = false
+        ..circularProgress(
+          padding: EdgeInsets.all(24.0),
+          valueColor: Colors.blue[500],
+        )
+        ..show();
     }
   }
 
   dismissProgressDialog() {
-    _dialogLoadingController?.dismissDialog();
-    _dialogLoadingController = null;
+    _yyDialog?.dismiss();
+    _yyDialog = null;
   }
 
   /*
   * size adapter with tool ScreenUtil
   *
   * */
-
 
   ///屏幕宽度
   double screenWidth() => ScreenUtil.getInstance().screenWidth;

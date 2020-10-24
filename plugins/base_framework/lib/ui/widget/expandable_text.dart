@@ -144,12 +144,16 @@ class ExpandableTextState extends State<ExpandableText> {
         textPainter.layout(minWidth: constraints.minWidth, maxWidth: maxWidth);
         final linkSize = textPainter.size;
 
+        // textPainter.text = images;
+        // textPainter.layout(minWidth: constraints.minWidth, maxWidth: maxWidth);
+        // final imagesSize = textPainter.size;
+
         textPainter.text = text;
         textPainter.layout(minWidth: constraints.minWidth, maxWidth: maxWidth);
         final textSize = textPainter.size;
 
         final position = textPainter.getPositionForOffset(Offset(
-          textSize.width - linkSize.width,
+          textSize.width - linkSize.width - widget.imageWidth??0,
           textSize.height,
         ));
         final endOffset = textPainter.getOffsetBefore(position.offset);
@@ -160,7 +164,7 @@ class ExpandableTextState extends State<ExpandableText> {
             style: effectiveTextStyle,
             text: _expanded
                 ? widget.text
-                : '${widget.text.substring(0, hasImage ? endOffset - 1 : endOffset)}... ',
+                : '${widget.text.substring(0, hasImage ? endOffset : endOffset)}...',
             children: [endSpan],
           );
         } else {

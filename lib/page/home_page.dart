@@ -10,7 +10,18 @@ class HomePage extends PageState {
         centerTitle: true,
       ),
       body: Center(
-        child: Text('Awesome Flutter Demoaaa'),
+        child: ExpandableText(
+          "文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo",
+          expandText: '展开',
+          collapseText: '隐藏',
+          maxLines: 4,
+          expandColor: Color(0xFFF22C2C),
+          collapseColor: Color(0xff3970FB),
+          expandImage: 'assets/down.png',
+          collapseImage: 'assets/up.png',
+          imageHeight: 15,
+          imageWidth: 15,
+        ),
       ),
     );
   }

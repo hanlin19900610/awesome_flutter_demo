@@ -6,10 +6,12 @@ class ExpandableText extends StatefulWidget {
   const ExpandableText(
     this.text, {
     Key key,
-    @required this.expandText,
-    @required this.collapseText,
-    @required this.expandColor,
-    @required this.collapseColor,
+    this.expandText,
+    this.collapseText,
+    this.expandColor,
+    this.collapseColor,
+    this.expandView,
+    this.collapseView,
     this.expandImage,
     this.collapseImage,
     this.imageHeight,
@@ -20,12 +22,13 @@ class ExpandableText extends StatefulWidget {
     this.textAlign,
     this.textScaleFactor,
     this.maxLines = 2,
-    this.expandView,
-    this.collapseView,
     this.semanticsLabel,
   })  : assert(text != null),
-        assert(expandText != null),
-        assert(collapseText != null),
+        assert((expandText != null &&
+                collapseText != null &&
+                expandColor != null &&
+                collapseColor != null) ||
+            (expandView != null && collapseView != null)),
         assert(expanded != null),
         assert(maxLines != null && maxLines > 0),
         assert(expandImage == null ||
@@ -112,6 +115,8 @@ class ExpandableTextState extends State<ExpandableText> {
   Widget build(BuildContext context) {
     /// 是否显示扩展图片
     hasImage = widget.collapseImage != null && widget.collapseImage != null;
+
+    /// 是否使用换行组件
     hasExpandedView = widget.expandView != null && widget.collapseView != null;
     final DefaultTextStyle defaultTextStyle = DefaultTextStyle.of(context);
     TextStyle effectiveTextStyle = widget.style;

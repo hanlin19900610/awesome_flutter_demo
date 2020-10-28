@@ -6,10 +6,12 @@ class ExpandableText extends StatefulWidget {
   const ExpandableText(
     this.text, {
     Key key,
-    @required this.expandText,
-    @required this.collapseText,
-    @required this.expandColor,
-    @required this.collapseColor,
+    this.expandText,
+    this.collapseText,
+    this.expandColor,
+    this.collapseColor,
+    this.expandView,
+    this.collapseView,
     this.expandImage,
     this.collapseImage,
     this.imageHeight,
@@ -22,8 +24,11 @@ class ExpandableText extends StatefulWidget {
     this.maxLines = 2,
     this.semanticsLabel,
   })  : assert(text != null),
-        assert(expandText != null),
-        assert(collapseText != null),
+        assert((expandText != null &&
+                collapseText != null &&
+                expandColor != null &&
+                collapseColor != null) ||
+            (expandView != null && collapseView != null)),
         assert(expanded != null),
         assert(maxLines != null && maxLines > 0),
         assert(expandImage == null ||
@@ -34,21 +39,49 @@ class ExpandableText extends StatefulWidget {
                 imageWidth != null)),
         super(key: key);
 
+  /// 文本内容
   final String text;
+
+  /// 展开文字
   final String expandText;
+
+  /// 收起文字
   final String collapseText;
+
+  /// 是否展开
   final bool expanded;
+
+  /// 展开文字颜色
   final Color expandColor;
+
+  /// 收起文字颜色
   final Color collapseColor;
+
+  /// 展开图片路径
   final String expandImage;
+
+  /// 收起图片路径
   final String collapseImage;
+
+  /// 图片高度
   final double imageHeight;
+
+  /// 图片宽度
   final double imageWidth;
+
+  /// 文字样式
   final TextStyle style;
+
   final TextDirection textDirection;
   final TextAlign textAlign;
   final double textScaleFactor;
+
+  /// 最大行数
   final int maxLines;
+
+  /// 扩展View
+  final Widget expandView;
+  final Widget collapseView;
   final String semanticsLabel;
 
   @override
@@ -58,6 +91,7 @@ class ExpandableText extends StatefulWidget {
 class ExpandableTextState extends State<ExpandableText> {
   bool _expanded = false;
   bool hasImage = false;
+  bool hasExpandedView = false;
   TapGestureRecognizer _tapGestureRecognizer;
 
   @override
@@ -79,8 +113,11 @@ class ExpandableTextState extends State<ExpandableText> {
 
   @override
   Widget build(BuildContext context) {
-    // 是否显示图片
+    /// 是否显示扩展图片
     hasImage = widget.collapseImage != null && widget.collapseImage != null;
+
+    /// 是否使用换行组件
+    hasExpandedView = widget.expandView != null && widget.collapseView != null;
     final DefaultTextStyle defaultTextStyle = DefaultTextStyle.of(context);
     TextStyle effectiveTextStyle = widget.style;
     if (widget.style == null || widget.style.inherit) {
@@ -94,7 +131,7 @@ class ExpandableTextState extends State<ExpandableText> {
         widget.textScaleFactor ?? MediaQuery.textScaleFactorOf(context);
     final locale = Localizations.localeOf(context, nullOk: true);
 
-    // 展开 隐藏的文本
+    /// 展开 隐藏的文本
     final linkText =
         _expanded ? ' ${widget.collapseText}' : '${widget.expandText}';
 
@@ -118,10 +155,20 @@ class ExpandableTextState extends State<ExpandableText> {
             imageWidth: widget.imageWidth,
             imageHeight: widget.imageHeight)
         : TextSpan();
-    final endSpan = TextSpan(
+
+    /// 三个点
+    final moreSpan = TextSpan(
+      text: '...',
       style: effectiveTextStyle,
-      children: [link, images],
     );
+
+    /// 尾部扩展
+    final endSpan = hasExpandedView
+        ? TextSpan()
+        : TextSpan(
+            style: effectiveTextStyle,
+            children: [link, images],
+          );
 
     final text = TextSpan(
       text: widget.text,
@@ -144,22 +191,35 @@ class ExpandableTextState extends State<ExpandableText> {
         textPainter.layout(minWidth: constraints.minWidth, maxWidth: maxWidth);
         final linkSize = textPainter.size;
 
-        // textPainter.text = images;
-        // textPainter.layout(minWidth: constraints.minWidth, maxWidth: maxWidth);
-        // final imagesSize = textPainter.size;
+        /// 获取三个点的宽度
+        textPainter.text = moreSpan;
+        textPainter.layout(minWidth: constraints.minWidth, maxWidth: maxWidth);
+        final moreSize = textPainter.size;
 
         textPainter.text = text;
         textPainter.layout(minWidth: constraints.minWidth, maxWidth: maxWidth);
         final textSize = textPainter.size;
 
-        final position = textPainter.getPositionForOffset(Offset(
-          textSize.width - linkSize.width - widget.imageWidth??0,
-          textSize.height,
-        ));
+        final position = hasExpandedView
+            ? textPainter.getPositionForOffset(Offset(
+                textSize.width - moreSize.width,
+                textSize.height,
+              ))
+            : textPainter.getPositionForOffset(Offset(
+                textSize.width -
+                        moreSize.width -
+                        linkSize.width -
+                        widget.imageWidth ??
+                    0,
+                textSize.height,
+              ));
         final endOffset = textPainter.getOffsetBefore(position.offset);
 
         TextSpan textSpan;
-        if (textPainter.didExceedMaxLines) {
+
+        /// 判断原始文字在指定最大行数的时候是否超出
+        bool hasMore = textPainter.didExceedMaxLines;
+        if (hasMore) {
           textSpan = TextSpan(
             style: effectiveTextStyle,
             text: _expanded
@@ -171,13 +231,26 @@ class ExpandableTextState extends State<ExpandableText> {
           textSpan = text;
         }
 
-        return RichText(
-          text: textSpan,
-          softWrap: true,
-          textDirection: textDirection,
-          textAlign: textAlign,
-          textScaleFactor: textScaleFactor,
-          overflow: TextOverflow.clip,
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            RichText(
+              text: textSpan,
+              softWrap: true,
+              textDirection: textDirection,
+              textAlign: textAlign,
+              textScaleFactor: textScaleFactor,
+              overflow: TextOverflow.clip,
+            ),
+            widget.expandView != null && widget.collapseView != null
+                ? InkWell(
+                    onTap: () {
+                      _toggleExpanded();
+                    },
+                    child: _expanded ? widget.collapseView : widget.expandView,
+                  )
+                : Container(),
+          ],
         );
       },
     );

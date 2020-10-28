@@ -48,6 +48,34 @@ class _MyAppState extends State<MyApp> {
               imageHeight: 15,
               imageWidth: 15,
             ),
+            ExpandableText(
+              "文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo文本折叠Demo",
+              expandText: '展开',
+              collapseText: '隐藏',
+              maxLines: 4,
+              expandColor: Color(0xFFF22C2C),
+              collapseColor: Color(0xff3970FB),
+              expandView: Container(
+                width: double.infinity,
+                height: 50.h,
+                color: Colors.white,
+                alignment: Alignment.center,
+                child: Text(
+                  '展开',
+                  style: TextStyle(color: Color(0xFFF22C2C)),
+                ),
+              ),
+              collapseView: Container(
+                width: double.infinity,
+                height: 50.h,
+                color: Colors.white,
+                alignment: Alignment.center,
+                child: Text(
+                  '收起',
+                  style: TextStyle(color: Color(0xff3970FB)),
+                ),
+              ),
+            ),
             // RaisedButton(
             //   onPressed: () {
             //     _launchURL(

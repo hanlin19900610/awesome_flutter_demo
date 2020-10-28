@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:base_framework/base_framework.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'page/exception/exception_page.dart';
@@ -72,11 +73,16 @@ class _MyAppState extends State<MyApp> {
           supportedLocales: const <Locale>[
             Locale.fromSubtags(languageCode: 'zh'),
           ],
-          navigatorObservers: [
-            routeObserver
-          ],
+          navigatorObservers: [routeObserver],
           navigatorKey: navigatorKey,
           home: HomePage().generateWidget(),
+          builder: (context, child) => Scaffold(
+            body: GestureDetector(
+              onTap: () =>
+                  SystemChannels.textInput.invokeMethod('TextInput.hide'),
+              child: child,
+            ),
+          ),
         ),
       ),
     );

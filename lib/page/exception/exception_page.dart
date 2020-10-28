@@ -18,24 +18,30 @@ class ExceptionPageState extends PageState {
   Widget build(BuildContext context) {
     return switchStatusBar2Dark(
         isSetDark: true,
-        child: Container(
-          color: Colors.white,
-          width: screenWidth(),
-          height: screenHeight(),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  exception,
-                  style: TextStyle(color: Colors.black),
-                ),
-                getSizeBox(height: 25.h),
-                Text(
-                  stack,
-                  style: TextStyle(color: Colors.blue),
-                ),
-              ],
+        child: Scaffold(
+          appBar: AppBar(
+            leading: IconButton(
+                icon: Icon(Icons.arrow_back_ios), onPressed: () => pop()),
+          ),
+          body: Container(
+            color: Colors.white,
+            width: screenWidth(),
+            height: screenHeight(),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    exception,
+                    style: TextStyle(color: Colors.black),
+                  ),
+                  getSizeBox(height: 25.h),
+                  Text(
+                    stack,
+                    style: TextStyle(color: Colors.blue),
+                  ),
+                ],
+              ),
             ),
           ),
         ));

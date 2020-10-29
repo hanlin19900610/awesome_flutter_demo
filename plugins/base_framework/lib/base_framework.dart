@@ -34,4 +34,4 @@ export 'package:connectivity/connectivity.dart';
 export 'package:flutter_custom_dialog/flutter_custom_dialog.dart';
 export 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 export 'package:extended_image/extended_image.dart';
-export 'package:cached_network_image_builder/cached_network_image_builder.dart';
+export 'package:cached_network_image/cached_network_image.dart';

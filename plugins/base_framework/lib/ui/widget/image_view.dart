@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:cached_network_image_builder/cached_network_image_builder.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:base_framework/base_framework.dart';
@@ -28,18 +28,13 @@ class ImageView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: borderRadius ?? BorderRadius.circular(0.0),
-      child: CachedNetworkImageBuilder(
-        url: url,
-        builder: (File image) {
-          return Image.file(
-            image,
-            width: width,
-            height: height,
-            fit: fit,
-          );
-        },
-        placeHolder: ImageHelper.placeHolder(width: width, height: height),
-        errorWidget: errorImg == null
+      child: CachedNetworkImage(
+        imageUrl: url,
+        width: width,
+        height: height,
+        fit: fit,
+        placeholder: (context, url)=>ImageHelper.placeHolder(width: width, height: height),
+        errorWidget: (context, url, error)=>errorImg == null
             ? ImageHelper.error(width: width, height: height)
             : SizedBox(
                 width: width,
@@ -74,28 +69,23 @@ class HeadImageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClipOval(
-      child: CachedNetworkImageBuilder(
-        url: url,
-        builder: (File image) {
-          return Image.file(
-            image,
-            width: width,
-            height: height,
-            fit: fit,
-          );
-        },
-        placeHolder: ImageHelper.placeHolder(width: width, height: height),
-        errorWidget: errorImg == null
+      child: CachedNetworkImage(
+        imageUrl: url,
+        width: width,
+        height: height,
+        fit: fit,
+        placeholder: (context, url)=>ImageHelper.placeHolder(width: width, height: height),
+        errorWidget: (context, url, error)=>errorImg == null
             ? ImageHelper.error(width: width, height: height)
             : SizedBox(
-                width: width,
-                height: height,
-                child: Image.asset(
-                  errorImg,
-                  width: width,
-                  height: height,
-                ),
-              ),
+          width: width,
+          height: height,
+          child: Image.asset(
+            errorImg,
+            width: width,
+            height: height,
+          ),
+        ),
       ),
     );
   }

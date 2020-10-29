@@ -1,4 +1,5 @@
 import 'package:flustars/flustars.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../base_framework.dart';
 
@@ -27,32 +28,55 @@ abstract class BaseState<T extends StatefulWidget> extends State<T> {
     );
   }
 
-  ///在页面上方显示一个 loading widget
-  ///共有两种方法，showProgressDialog是其中一种
-  ///具体参见 : progress_widget.dart
-  DialogLoadingController _dialogLoadingController;
+  YYDialog _loadingDialog;
 
-  showProgressDialog({
-    Widget progress,
-    Color bgColor,
-  }) {
-    if (_dialogLoadingController == null) {
-      _dialogLoadingController = DialogLoadingController();
-      Navigator.of(context).push(PageRouteBuilder(
-          opaque: false,
-          pageBuilder: (ctx, animation, secondAnimation) {
-            return LoadingProgressState(
-              controller: _dialogLoadingController,
-              progress: progress,
-              bgColor: bgColor,
-            ).generateWidget();
-          }));
+  showProgressDialog() {
+    if(_loadingDialog == null) {
+      _loadingDialog = YYDialog().build(context)
+        ..width = 150.h
+        ..height = 150.h
+        ..backgroundColor = Colors.white
+        ..borderRadius = 10.h
+        ..barrierDismissible = false
+        ..widget(
+            Container(
+              width: 150.h,
+              height: 150.h,
+              alignment: Alignment.center,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  CupertinoActivityIndicator(
+                    radius: 15.h,
+                  ),
+                  SizedBox(
+                    height: 10.h,
+                  ),
+                  Text(
+                    '加载中...',
+                    style: TextStyle(color: Colors.grey, fontSize: 12.sp),
+                  ),
+                ],
+              ),
+            )
+        )
+        ..animatedFunc = (child, animation) {
+          return ScaleTransition(
+            child: child,
+            scale: Tween(begin: 0.0, end: 1.0).animate(animation),
+          );
+        };
     }
+    _loadingDialog.show();
   }
 
   dismissProgressDialog() {
-    _dialogLoadingController?.dismissDialog();
-    _dialogLoadingController = null;
+    if(_loadingDialog != null && _loadingDialog.isShowing){
+      _loadingDialog.dismiss();
+      _loadingDialog = null;
+    }
   }
 
   /*

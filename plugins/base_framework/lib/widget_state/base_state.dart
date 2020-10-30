@@ -161,11 +161,13 @@ mixin WidgetGenerator on BaseState implements _RouteGenerator, _NavigateActor {
 
   @override
   void pop<T extends Object>({T result}) {
+    FocusScope.of(context)?.unfocus();
     Navigator.of(context).pop(result);
   }
 
   @override
   void popUntil({RoutePredicate predicate}) {
+    FocusScope.of(context)?.unfocus();
     Navigator.of(context).popUntil(predicate ?? (route) => false);
   }
 
